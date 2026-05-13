@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOONLIGHT Dental Studio — Туракулова Мадина</title>
+<meta name="description" content="MOONLIGHT Dental Studio — Туракулова Мадина, стоматолог-терапевт. Денау, Сурхандарьинская область.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --pink:#F7D6E0;
+  --pink-deep:#E8B5C5;
+  --milk:#FFF9F5;
+  --lav:#DCCCF3;
+  --lav-deep:#C4B0E8;
+  --white:#FFFFFF;
+  --beige:#CFC6C0;
+  --graphite:#3A3A3A;
+  --graphite-soft:#5A5A5A;
+  --error:#E57373;
+  --success:#81C784;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--milk);color:var(--graphite);font-size:15px;line-height:1.7;font-weight:400;overflow-x:hidden}
+
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.06;mix-blend-mode:multiply}
+.glow-1{position:fixed;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(247,214,224,0.6) 0%,transparent 70%);pointer-events:none;z-index:0}
+.glow-2{position:fixed;bottom:-300px;left:-300px;width:700px;height:700px;background:radial-gradient(circle,rgba(220,204,243,0.5) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(58,58,58,0.35);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:28px;padding:48px 44px;width:100%;max-width:440px;position:relative;transform:translateY(20px);transition:transform 0.35s;box-shadow:0 40px 100px rgba(58,58,58,0.15)}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-close{position:absolute;top:20px;right:20px;background:none;border:none;cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.2s;color:var(--graphite-soft)}
+.modal-close:hover{background:var(--milk)}
+.modal-moon{display:flex;align-items:center;justify-content:center;margin-bottom:24px}
+.modal-moon svg{width:40px;height:40px}
+.modal-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:600;color:var(--graphite);text-align:center;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--graphite-soft);text-align:center;margin-bottom:32px;font-weight:300}
+.modal-sub span{color:var(--lav-deep);font-weight:500}
+
+.mfg{margin-bottom:18px}
+.mfl{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.18em;color:var(--graphite-soft);margin-bottom:8px;font-weight:500}
+.mfi{width:100%;background:var(--milk);border:1.5px solid transparent;color:var(--graphite);padding:14px 18px;border-radius:14px;font-family:'Poppins',sans-serif;font-size:14px;outline:none;transition:all 0.25s}
+.mfi:focus{border-color:var(--lav-deep);background:var(--white)}
+.mfi.error{border-color:var(--error)}
+
+.modal-err{font-size:12px;color:var(--error);margin-top:6px;display:none;font-weight:400}
+.modal-err.show{display:block}
+
+.modal-btn{width:100%;background:var(--graphite);color:var(--white);border:none;padding:16px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.3s;letter-spacing:0.1em;text-transform:uppercase;margin-top:8px}
+.modal-btn:hover{background:#1a1a1a;transform:translateY(-1px);box-shadow:0 8px 24px rgba(58,58,58,0.2)}
+.modal-btn:active{transform:translateY(0)}
+
+.modal-doctor-badge{background:linear-gradient(135deg,var(--pink) 0%,var(--lav) 100%);border-radius:16px;padding:14px 18px;margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.mdb-icon{width:38px;height:38px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mdb-text{display:flex;flex-direction:column}
+.mdb-title{font-size:13px;font-weight:500;color:var(--graphite)}
+.mdb-sub{font-size:11px;color:var(--graphite-soft);font-weight:300}
+
+.show-pw{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--graphite-soft);display:flex;align-items:center;padding:0}
+.pw-wrap{position:relative}
+.pw-wrap .mfi{padding-right:44px}
+
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--beige);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(207,198,192,0.4)}
+
+/* Doctor logged-in badge in nav */
+.doctor-badge-nav{display:none;align-items:center;gap:8px;background:linear-gradient(135deg,var(--pink) 0%,var(--lav) 100%);border-radius:40px;padding:8px 16px;font-size:12px;font-weight:500;color:var(--graphite)}
+.doctor-badge-nav.show{display:flex}
+.dbn-dot{width:7px;height:7px;background:#7DC9A0;border-radius:50%;animation:pulse 2s infinite}
+.logout-btn{background:none;border:1px solid var(--beige);border-radius:40px;padding:8px 16px;font-size:12px;color:var(--graphite-soft);cursor:pointer;font-family:'Poppins',sans-serif;transition:all 0.2s;display:none}
+.logout-btn.show{display:block}
+.logout-btn:hover{border-color:var(--graphite);color:var(--graphite)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 56px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(16px);background:rgba(255,249,245,0.75);border-bottom:1px solid rgba(207,198,192,0.2)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--graphite)}
+.logo-moon{width:28px;height:28px;flex-shrink:0}
+.logo-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;letter-spacing:0.06em;line-height:1}
+.logo-sub{font-family:'Poppins',sans-serif;font-size:9px;color:var(--beige);letter-spacing:0.25em;text-transform:uppercase;margin-top:2px}
+.logo-wrap{display:flex;flex-direction:column}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:12px;color:var(--graphite-soft);text-decoration:none;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.3s;font-weight:400;position:relative}
+.nav-links a::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--graphite);transform:scaleX(0);transition:transform 0.3s;transform-origin:left}
+.nav-links a:hover{color:var(--graphite)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.lang-switch{display:flex;align-items:center;gap:2px;background:var(--white);border:1px solid rgba(207,198,192,0.4);border-radius:40px;padding:3px}
+.lang-btn{background:transparent;border:none;font-family:'Poppins',sans-serif;font-size:11px;font-weight:500;color:var(--graphite-soft);padding:6px 12px;border-radius:30px;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.25s}
+.lang-btn.active{background:var(--graphite);color:var(--white)}
+.nav-login-btn{background:transparent;border:1px solid var(--beige);color:var(--graphite-soft);padding:10px 20px;border-radius:40px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:400;cursor:pointer;transition:all 0.3s;letter-spacing:0.06em;text-transform:uppercase}
+.nav-login-btn:hover{border-color:var(--graphite);color:var(--graphite)}
+.nav-cta{background:var(--graphite);color:var(--white);border:none;padding:12px 24px;border-radius:40px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.3s;letter-spacing:0.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px}
+.nav-cta:hover{background:#1a1a1a;transform:translateY(-1px);box-shadow:0 6px 20px rgba(58,58,58,0.2)}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr;padding:120px 56px 80px;position:relative;z-index:2;align-items:center;gap:60px}
+.hero-left{display:flex;flex-direction:column;justify-content:center}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;background:var(--white);border:1px solid rgba(207,198,192,0.3);border-radius:40px;padding:8px 18px;font-size:11px;color:var(--graphite-soft);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:32px;width:fit-content;animation:fadeUp 0.9s ease both}
+.tag-dot{width:6px;height:6px;background:var(--pink-deep);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
+.hero-title{font-family:'Playfair Display',serif;font-size:80px;font-weight:500;line-height:1;color:var(--graphite);margin-bottom:8px;letter-spacing:-0.025em;animation:fadeUp 0.9s 0.1s ease both}
+.hero-title i{font-style:italic;color:var(--lav-deep);font-weight:400}
+.hero-role{font-family:'Poppins',sans-serif;font-size:14px;font-weight:300;color:var(--graphite-soft);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:36px;animation:fadeUp 0.9s 0.2s ease both}
+.hero-slogan{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;color:var(--graphite);line-height:1.5;margin-bottom:32px;max-width:480px;font-weight:400;animation:fadeUp 0.9s 0.3s ease both}
+.hero-desc{font-size:14px;color:var(--graphite-soft);line-height:1.85;max-width:460px;margin-bottom:44px;font-weight:300;animation:fadeUp 0.9s 0.4s ease both}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp 0.9s 0.5s ease both}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--graphite);color:var(--white);padding:16px 32px;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.35s;border:none;font-family:'Poppins',sans-serif;letter-spacing:0.1em;text-transform:uppercase}
+.btn-primary:hover{background:#1a1a1a;transform:translateY(-2px);box-shadow:0 12px 30px rgba(58,58,58,0.25)}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--graphite);padding:16px 32px;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.3s;border:1px solid var(--beige);font-family:'Poppins',sans-serif;letter-spacing:0.1em;text-transform:uppercase}
+.btn-secondary:hover{background:var(--white);border-color:var(--graphite)}
+.hero-stats{display:flex;gap:56px;margin-top:64px;padding-top:36px;border-top:1px solid rgba(207,198,192,0.3);animation:fadeUp 0.9s 0.6s ease both}
+.stat-num{font-family:'Playfair Display',serif;font-size:42px;font-weight:500;color:var(--graphite);line-height:1}
+.stat-num em{font-style:italic;color:var(--pink-deep);font-weight:400}
+.stat-lbl{font-size:10px;color:var(--graphite-soft);margin-top:6px;letter-spacing:0.2em;text-transform:uppercase}
+
+/* HERO RIGHT */
+.hero-right{display:flex;align-items:center;justify-content:center;position:relative;padding:40px}
+.photo-frame{position:relative;width:420px;height:540px;animation:fadeUp 0.9s 0.3s ease both}
+.photo-bg-shape{position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:380px;height:380px;background:linear-gradient(135deg,var(--pink) 0%,var(--lav) 100%);border-radius:50%;z-index:1}
+
+
+.moon-deco{position:absolute;top:50px;right:-30px;width:80px;height:80px;z-index:3;animation:floatY 6s ease-in-out infinite}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+.info-tag{position:absolute;bottom:60px;left:-40px;background:var(--white);border-radius:40px;padding:14px 22px;box-shadow:0 12px 40px rgba(58,58,58,0.1);z-index:4;display:flex;align-items:center;gap:12px}
+.info-tag-icon{width:38px;height:38px;background:var(--pink);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.info-tag-lbl{font-size:10px;color:var(--graphite-soft);letter-spacing:0.12em;text-transform:uppercase}
+.info-tag-val{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--graphite);line-height:1.2}
+
+.status-tag{position:absolute;top:80px;left:-50px;background:var(--white);border-radius:40px;padding:10px 18px;box-shadow:0 10px 30px rgba(58,58,58,0.08);z-index:4;display:flex;align-items:center;gap:8px}
+.status-dot{width:7px;height:7px;background:#7DC9A0;border-radius:50%;animation:pulse 2s infinite}
+.status-text{font-size:11px;color:var(--graphite);letter-spacing:0.08em;font-weight:500}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* ADMIN PANEL */
+.admin-banner{background:linear-gradient(135deg,var(--pink) 0%,var(--lav) 100%);padding:16px 56px;display:none;align-items:center;justify-content:space-between;position:relative;z-index:90;margin-top:80px}
+.admin-banner.show{display:flex}
+.admin-banner-left{display:flex;align-items:center;gap:12px}
+.admin-banner-icon{width:36px;height:36px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.admin-banner-text{font-size:13px;font-weight:500;color:var(--graphite)}
+.admin-banner-sub{font-size:11px;color:var(--graphite-soft);font-weight:300}
+.admin-panel-btn{background:var(--graphite);color:var(--white);border:none;padding:10px 22px;border-radius:40px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.3s;letter-spacing:0.08em;text-transform:uppercase}
+.admin-panel-btn:hover{background:#1a1a1a}
+
+/* SECTIONS */
+.section{padding:120px 56px;position:relative;z-index:2}
+.s-tag{font-size:11px;color:var(--graphite-soft);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:14px;font-weight:400}
+.s-tag::before{content:'';width:32px;height:1px;background:var(--beige)}
+.s-title{font-family:'Playfair Display',serif;font-size:56px;font-weight:500;color:var(--graphite);line-height:1.1;letter-spacing:-0.02em;margin-bottom:56px;max-width:720px}
+.s-title i{font-style:italic;color:var(--lav-deep);font-weight:400}
+
+/* ABOUT */
+.about{background:linear-gradient(180deg,var(--milk) 0%,var(--white) 100%)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.about-text p{font-size:14px;color:var(--graphite-soft);line-height:1.95;margin-bottom:18px;font-weight:300}
+.about-text p:first-child::first-letter{font-family:'Playfair Display',serif;font-size:48px;font-weight:500;float:left;line-height:0.9;margin-right:8px;margin-top:4px;color:var(--lav-deep)}
+.srv-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.srv-card{background:var(--white);border:1px solid rgba(207,198,192,0.25);border-radius:18px;padding:22px;transition:all 0.4s ease;position:relative;overflow:hidden}
+.srv-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--pink) 0%,var(--lav) 100%);opacity:0;transition:opacity 0.4s;z-index:0}
+.srv-card>*{position:relative;z-index:1}
+.srv-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(58,58,58,0.08);border-color:transparent}
+.srv-card:hover::before{opacity:0.35}
+.srv-ic{width:40px;height:40px;background:var(--milk);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:14px;transition:all 0.3s}
+.srv-card:hover .srv-ic{background:var(--white)}
+.srv-ic svg{width:20px;height:20px;color:var(--graphite)}
+.srv-nm{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--graphite);margin-bottom:6px;line-height:1.2}
+.srv-ds{font-size:12px;color:var(--graphite-soft);line-height:1.6;font-weight:300}
+
+/* SCHEDULE */
+.schedule{background:var(--milk)}
+.week-row{display:grid;grid-template-columns:repeat(7,1fr);gap:14px}
+.day-c{background:var(--white);border:1px solid rgba(207,198,192,0.2);border-radius:18px;padding:22px 10px;text-align:center;transition:all 0.4s ease}
+.day-c.open:hover{background:linear-gradient(180deg,var(--pink) 0%,var(--lav) 100%);transform:translateY(-6px);box-shadow:0 16px 40px rgba(58,58,58,0.1);border-color:transparent}
+.day-c.closed{opacity:0.4}
+.day-ab{font-size:10px;text-transform:uppercase;letter-spacing:0.18em;color:var(--graphite-soft);margin-bottom:10px;font-weight:500}
+.day-nb{font-family:'Playfair Display',serif;font-size:34px;font-weight:500;color:var(--graphite);line-height:1;margin-bottom:8px}
+.day-st{font-size:10px;color:var(--graphite-soft);font-weight:400;text-transform:uppercase;letter-spacing:0.1em}
+
+/* BOOKING */
+.booking{background:linear-gradient(180deg,var(--white) 0%,var(--milk) 100%)}
+.book-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start}
+.steps-list{display:flex;flex-direction:column}
+.step-row{display:flex;gap:24px;padding:24px 0;border-bottom:1px solid rgba(207,198,192,0.25)}
+.step-row:last-child{border-bottom:none}
+.step-n{font-family:'Playfair Display',serif;font-style:italic;font-size:44px;font-weight:400;color:var(--lav-deep);line-height:1;min-width:60px}
+.step-t{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--graphite);margin-bottom:6px}
+.step-d{font-size:13px;color:var(--graphite-soft);line-height:1.7;font-weight:300}
+.form-box{background:var(--white);border-radius:24px;padding:40px;box-shadow:0 20px 60px rgba(58,58,58,0.06);border:1px solid rgba(207,198,192,0.2)}
+.form-box-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--graphite);margin-bottom:6px}
+.form-box-sub{font-size:13px;color:var(--graphite-soft);margin-bottom:28px;font-weight:300}
+.fg{margin-bottom:20px}
+.fl{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.18em;color:var(--graphite-soft);margin-bottom:10px;font-weight:500}
+.fs,.fi{width:100%;background:var(--milk);border:1px solid transparent;color:var(--graphite);padding:14px 18px;border-radius:14px;font-family:'Poppins',sans-serif;font-size:13px;outline:none;transition:all 0.25s;-webkit-appearance:none}
+.fs{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23808080' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center;padding-right:42px}
+.fs:focus,.fi:focus{border-color:var(--lav-deep);background:var(--white)}
+.fs option{background:var(--white);color:var(--graphite)}
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ts{background:var(--milk);border:1px solid transparent;border-radius:12px;padding:12px;text-align:center;font-size:13px;color:var(--graphite-soft);cursor:pointer;transition:all 0.25s}
+.ts:hover{border-color:var(--pink-deep);color:var(--graphite)}
+.ts.on{background:linear-gradient(135deg,var(--pink) 0%,var(--lav) 100%);color:var(--graphite);font-weight:500;border-color:transparent}
+.tg-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--graphite);color:var(--white);border:none;padding:17px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin-top:20px;transition:all 0.35s;letter-spacing:0.1em;text-transform:uppercase}
+.tg-btn:hover{background:#1a1a1a;transform:translateY(-2px);box-shadow:0 12px 30px rgba(58,58,58,0.25)}
+
+/* CONTACT */
+.contact{background:var(--white)}
+.ct-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.ct-card{background:var(--milk);border-radius:20px;padding:32px;transition:all 0.35s;border:1px solid rgba(207,198,192,0.2)}
+.ct-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(58,58,58,0.06);border-color:transparent;background:var(--white)}
+.ct-ic{width:46px;height:46px;background:linear-gradient(135deg,var(--pink) 0%,var(--lav) 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.ct-ic svg{width:22px;height:22px;color:var(--graphite)}
+.ct-card h4{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--graphite);margin-bottom:10px}
+.ct-card p,.ct-card a{font-size:14px;color:var(--graphite-soft);line-height:1.7;display:block;text-decoration:none;font-weight:300}
+.ct-card a{color:var(--graphite);font-weight:400}
+.ct-card a:hover{color:var(--lav-deep)}
+.map-wrap{background:var(--milk);border-radius:20px;height:280px;overflow:hidden;border:1px solid rgba(207,198,192,0.2);display:flex;align-items:center;justify-content:center}
+.map-wrap iframe{width:100%;height:100%;border:none}
+
+/* ADMIN SECTION */
+.admin-sec{background:var(--milk);display:none;position:relative;z-index:2;border-top:1px solid rgba(207,198,192,0.25)}
+.admin-sec.vis{display:block}
+.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:40px}
+.ad-box{background:var(--white);border-radius:20px;padding:32px;border:1px solid rgba(207,198,192,0.2)}
+.ad-box-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--graphite);margin-bottom:24px}
+.afg{margin-bottom:16px}
+.afg label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.18em;color:var(--graphite-soft);margin-bottom:8px;font-weight:500}
+.afg input,.afg select{width:100%;background:var(--milk);border:1px solid transparent;color:var(--graphite);padding:12px 16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:13px;outline:none;transition:all 0.25s}
+.afg input:focus,.afg select:focus{border-color:var(--lav-deep);background:var(--white)}
+.ad-btn{background:var(--graphite);color:var(--white);border:none;padding:13px 26px;border-radius:40px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;cursor:pointer;margin-top:8px;transition:all 0.3s;letter-spacing:0.1em;text-transform:uppercase}
+.ad-btn:hover{background:#1a1a1a}
+.pt-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--milk);border-radius:12px;margin-bottom:8px;transition:all 0.25s}
+.pt-item:hover{background:var(--white);box-shadow:0 4px 16px rgba(58,58,58,0.04)}
+.pt-t{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--lav-deep);min-width:55px}
+.pt-n{flex:1;font-size:13px;color:var(--graphite)}
+.pt-s{font-size:11px;color:var(--graphite-soft);font-weight:300}
+.pt-del{background:none;border:none;cursor:pointer;color:var(--beige);font-size:18px;padding:0 4px;transition:color 0.2s;line-height:1}
+.pt-del:hover{color:var(--error)}
+
+/* FOOTER */
+footer{background:var(--graphite);color:rgba(255,255,255,0.7);padding:60px 56px 30px;position:relative;z-index:2}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:60px;margin-bottom:40px}
+.foot-logo{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.foot-logo-moon{width:24px;height:24px}
+.foot-logo-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--white);letter-spacing:0.06em}
+.foot-tag{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:24px;max-width:300px;line-height:1.6}
+.foot-col h5{font-family:'Poppins',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.4);margin-bottom:16px;font-weight:500}
+.foot-col a,.foot-col p{display:block;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;font-weight:300;transition:color 0.2s}
+.foot-col a:hover{color:var(--pink)}
+.foot-bottom{padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center;font-size:11px;color:rgba(255,255,255,0.4)}
+
+/* FLOATING TG */
+.tg-float{position:fixed;bottom:28px;right:28px;z-index:200;background:linear-gradient(135deg,#2AABEE 0%,#229ED9 100%);color:white;border:none;border-radius:50px;padding:14px 22px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:9px;box-shadow:0 8px 30px rgba(42,171,238,0.4);text-decoration:none;transition:all 0.35s;letter-spacing:0.05em}
+.tg-float:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 38px rgba(42,171,238,0.5)}
+
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;padding:100px 24px 60px;gap:40px}
+  .hero-right{order:-1}
+  .photo-frame{width:300px;height:400px}
+  .photo-bg-shape{width:280px;height:280px}
+  .hero-title{font-size:54px}
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+  .section{padding:70px 24px}
+  .s-title{font-size:38px}
+  .about-grid,.book-layout,.ad-grid,.foot-grid{grid-template-columns:1fr;gap:40px}
+  .week-row{grid-template-columns:repeat(4,1fr)}
+  .ct-cards{grid-template-columns:1fr}
+  .hero-stats{flex-wrap:wrap;gap:32px}
+  .foot-bottom{flex-direction:column;gap:10px;text-align:center}
+  footer{padding:50px 24px 24px}
+  .admin-banner{padding:14px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="glow-1"></div>
+<div class="glow-2"></div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-moon">
+      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M55 12c-3 0-6 .5-8.5 1.5C56 18 62.5 27.5 62.5 38.5S56 59 46.5 63.5c2.5 1 5.5 1.5 8.5 1.5 14.6 0 26.5-11.9 26.5-26.5S69.6 12 55 12z" fill="#DCCCF3"/>
+        <circle cx="62" cy="26" r="1.5" fill="#C4B0E8"/>
+        <circle cx="68" cy="40" r="1" fill="#C4B0E8"/>
+      </svg>
+    </div>
+    <div class="modal-doctor-badge">
+      <div class="mdb-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+      </div>
+      <div class="mdb-text">
+        <span class="mdb-title" data-i="modal_badge_t">Вход для врача</span>
+        <span class="mdb-sub" data-i="modal_badge_s">Войдите с данными вашего аккаунта</span>
+      </div>
+    </div>
+    <div class="mfg">
+      <label class="mfl" data-i="modal_lbl_phone">Номер телефона</label>
+      <input class="mfi" type="tel" id="loginPhone" placeholder="+998 __ ___ __ __" autocomplete="tel">
+      <div class="modal-err" id="loginPhoneErr" data-i="modal_err_phone">Неверный номер</div>
+    </div>
+    <div class="mfg">
+      <label class="mfl" data-i="modal_lbl_pw">Пароль</label>
+      <div class="pw-wrap">
+        <input class="mfi" type="password" id="loginPw" placeholder="••••••••" autocomplete="current-password">
+        <button class="show-pw" onclick="togglePw()" tabindex="-1" type="button">
+          <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="modal-err" id="loginPwErr" data-i="modal_err_pw">Неверный пароль</div>
+    </div>
+    <div class="modal-err" id="loginGeneralErr" data-i="modal_err_general">Неверный номер или пароль</div>
+    <button class="modal-btn" onclick="doLogin()" data-i="modal_btn_login">Войти как врач</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-moon">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <path d="M28 6c-1.5 0-3 .25-4.3.7C29 9 32.5 14 32.5 20s-3.5 11-8.8 13.3c1.3.45 2.8.7 4.3.7 7.7 0 14-6.3 14-14S35.7 6 28 6z" fill="#3A3A3A"/>
+        <circle cx="32" cy="14" r="0.8" fill="#3A3A3A" opacity="0.4"/>
+        <circle cx="35" cy="22" r="0.6" fill="#3A3A3A" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="logo-wrap">
+      <span class="logo-name">MOONLIGHT</span>
+      <span class="logo-sub">Dental Studio</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about" data-i="nav_about">О враче</a></li>
+    <li><a href="#schedule" data-i="nav_schedule">Расписание</a></li>
+    <li><a href="#booking" data-i="nav_booking">Запись</a></li>
+    <li><a href="#contact" data-i="nav_contact">Контакты</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="ru">RU</button>
+      <button class="lang-btn" data-lang="uz">UZ</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <!-- Shown when NOT logged in -->
+    <button class="nav-login-btn" id="loginBtn" onclick="openModal()" data-i="nav_login">Войти</button>
+    <!-- Shown when logged in as doctor -->
+    <div class="doctor-badge-nav" id="doctorBadge">
+      <div class="dbn-dot"></div>
+      <span data-i="nav_doctor_name">Мадина</span>
+    </div>
+    <button class="logout-btn" id="logoutBtn" onclick="doLogout()" data-i="nav_logout">Выйти</button>
+    <a class="nav-cta" href="https://t.me/madina_nomazovna" target="_blank" data-i="nav_cta">Записаться</a>
+  </div>
+</nav>
+
+<!-- ADMIN BANNER (visible when logged in) -->
+<div class="admin-banner" id="adminBanner">
+  <div class="admin-banner-left">
+    <div class="admin-banner-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div>
+      <div class="admin-banner-text" data-i="banner_text">Вы вошли как администратор</div>
+      <div class="admin-banner-sub" data-i="banner_sub">Управляйте расписанием в панели ниже</div>
+    </div>
+  </div>
+  <button class="admin-panel-btn" onclick="scrollToAdmin()" data-i="banner_btn">Открыть панель ↓</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="heroSection">
+  <div class="hero-left">
+    <div class="hero-tag"><div class="tag-dot"></div><span data-i="hero_tag">Принимает пациентов · Денау</span></div>
+    <h1 class="hero-title"><span data-i="hero_name1">Туракулова</span><br><i data-i="hero_name2">Мадина</i></h1>
+    <div class="hero-role" data-i="hero_role">Стоматолог-терапевт</div>
+    <p class="hero-slogan" data-i="hero_slogan">Премиальный уход для вашей идеальной улыбки.</p>
+    <p class="hero-desc" data-i="hero_desc">Профессиональный подход к каждому пациенту. Комфортное лечение, современные материалы и индивидуальный план — для здоровья и красоты вашей улыбки.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="https://t.me/madina_nomazovna" target="_blank" data-i="hero_btn_primary">Записаться в Telegram →</a>
+      <a class="btn-secondary" href="#about" data-i="hero_btn_secondary">Узнать больше</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">2<em>+</em></div><div class="stat-lbl" data-i="stat1">Года опыта</div></div>
+      <div><div class="stat-num">500<em>+</em></div><div class="stat-lbl" data-i="stat2">Пациентов</div></div>
+      <div><div class="stat-num">100<em>%</em></div><div class="stat-lbl" data-i="stat3">Качество</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="photo-frame">
+      <div class="photo-bg-shape"></div>
+      <div class="moon-deco">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <path d="M55 12c-3 0-6 .5-8.5 1.5C56 18 62.5 27.5 62.5 38.5S56 59 46.5 63.5c2.5 1 5.5 1.5 8.5 1.5 14.6 0 26.5-11.9 26.5-26.5S69.6 12 55 12z" fill="#DCCCF3"/>
+          <circle cx="62" cy="26" r="1.2" fill="#C4B0E8"/>
+          <circle cx="68" cy="40" r="1" fill="#C4B0E8"/>
+          <circle cx="64" cy="52" r="0.8" fill="#C4B0E8"/>
+        </svg>
+      </div>
+
+      <div class="status-tag">
+        <div class="status-dot"></div>
+        <span class="status-text" data-i="status_text">Принимает</span>
+      </div>
+      <div class="info-tag">
+        <div class="info-tag-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="info-tag-lbl" data-i="info_lbl">Опыт работы</div>
+          <div class="info-tag-val" data-i="info_val">2+ года</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="about">
+  <div class="s-tag">01 — <span data-i="about_tag">О враче</span></div>
+  <h2 class="s-title"><span data-i="about_title1">Профессионализм</span><br><i data-i="about_title2">и забота</i></h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p data-i="about_p1">Я — стоматолог-терапевт с опытом работы более 2 лет. Работаю как со взрослыми, так и с детьми, уделяя особое внимание комфорту пациента и качеству лечения.</p>
+      <p data-i="about_p2">Специализируюсь на лечении кариеса любой сложности, эстетической реставрации зубов, лечении пульпита и периодонтита. В своей практике использую современные материалы и методы лечения, позволяющие добиться долговечного и эстетичного результата.</p>
+      <p data-i="about_p3">Также провожу профессиональную гигиену полости рта, удаление зубного камня и налёта, отбеливание зубов, лечение чувствительности и профилактику стоматологических заболеваний.</p>
+      <p data-i="about_p4">Для каждого пациента составляю индивидуальный план лечения, подробно консультирую и помогаю сохранить здоровье и красоту улыбки.</p>
+    </div>
+    <div class="srv-grid">
+      <div class="srv-card"><div class="srv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5.5c-2.5 0-4 1-5.5 1-2 0-3 .5-3 4 0 4 1.5 8.5 3 8.5 1.5 0 2-3 3-3.5.5-.25 1.5-.5 2.5-.5s2 .25 2.5.5c1 .5 1.5 3.5 3 3.5 1.5 0 3-4.5 3-8.5 0-3.5-1-4-3-4-1.5 0-3-1-5.5-1z"/></svg></div><div class="srv-nm" data-i="srv1_n">Лечение кариеса</div><div class="srv-ds" data-i="srv1_d">Любой сложности, современные материалы</div></div>
+      <div class="srv-card"><div class="srv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg></div><div class="srv-nm" data-i="srv2_n">Эстетика</div><div class="srv-ds" data-i="srv2_d">Художественная реставрация зубов</div></div>
+      <div class="srv-card"><div class="srv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div class="srv-nm" data-i="srv3_n">Пульпит / Периодонтит</div><div class="srv-ds" data-i="srv3_d">Лечение каналов с современным оборудованием</div></div>
+      <div class="srv-card"><div class="srv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="3"/><circle cx="16" cy="14" r="2"/><circle cx="8" cy="16" r="1.5"/></svg></div><div class="srv-nm" data-i="srv4_n">Профгигиена</div><div class="srv-ds" data-i="srv4_d">Ультразвуковая чистка, удаление налёта</div></div>
+      <div class="srv-card"><div class="srv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div><div class="srv-nm" data-i="srv5_n">Отбеливание</div><div class="srv-ds" data-i="srv5_d">Профессиональное отбеливание зубов</div></div>
+      <div class="srv-card"><div class="srv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/></svg></div><div class="srv-nm" data-i="srv6_n">Детский приём</div><div class="srv-ds" data-i="srv6_d">Лечение в комфортной атмосфере для детей</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="section schedule" id="schedule">
+  <div class="s-tag">02 — <span data-i="sch_tag">Расписание</span></div>
+  <h2 class="s-title"><span data-i="sch_title1">График</span> <i data-i="sch_title2">приёма</i></h2>
+  <div class="week-row" id="weekGrid"></div>
+</section>
+
+<!-- BOOKING -->
+<section class="section booking" id="booking">
+  <div class="s-tag">03 — <span data-i="book_tag">Запись</span></div>
+  <h2 class="s-title"><span data-i="book_title1">Записаться</span><br><i data-i="book_title2">на приём</i></h2>
+  <div class="book-layout">
+    <div class="steps-list">
+      <div class="step-row"><div class="step-n">01</div><div><div class="step-t" data-i="step1_t">Выберите услугу и день</div><div class="step-d" data-i="step1_d">Укажите, с чем хотите обратиться, и выберите удобный день из расписания.</div></div></div>
+      <div class="step-row"><div class="step-n">02</div><div><div class="step-t" data-i="step2_t">Выберите свободное время</div><div class="step-d" data-i="step2_d">Нажмите на удобный временной слот из доступных окон.</div></div></div>
+      <div class="step-row"><div class="step-n">03</div><div><div class="step-t" data-i="step3_t">Нажмите «Записаться»</div><div class="step-d" data-i="step3_d">Вы перейдёте в Telegram с готовым сообщением для врача.</div></div></div>
+      <div class="step-row"><div class="step-n">04</div><div><div class="step-t" data-i="step4_t">Получите подтверждение</div><div class="step-d" data-i="step4_d">Мадина подтвердит запись в Telegram и добавит вас в расписание.</div></div></div>
+    </div>
+    <div class="form-box">
+      <div class="form-box-title" data-i="form_title">Онлайн-запись</div>
+      <div class="form-box-sub" data-i="form_sub">Заполните форму — мы свяжемся с вами</div>
+      <div class="fg"><label class="fl" data-i="form_lbl_svc">Услуга</label>
+        <select class="fs" id="svc">
+          <option data-i="svc_opt1">Консультация (бесплатно)</option>
+          <option data-i="svc_opt2">Лечение кариеса</option>
+          <option data-i="svc_opt3">Эстетическая реставрация</option>
+          <option data-i="svc_opt4">Лечение пульпита / периодонтита</option>
+          <option data-i="svc_opt5">Профессиональная гигиена</option>
+          <option data-i="svc_opt6">Отбеливание зубов</option>
+          <option data-i="svc_opt7">Детский приём</option>
+          <option data-i="svc_opt8">Другое</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl" data-i="form_lbl_day">День приёма</label>
+        <select class="fs" id="daysel">
+          <option data-i="day_mon">Понедельник</option>
+          <option data-i="day_tue">Вторник</option>
+          <option data-i="day_wed">Среда</option>
+          <option data-i="day_fri">Пятница</option>
+          <option data-i="day_sat">Суббота</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl" data-i="form_lbl_time">Свободное время</label>
+        <div class="t-grid" id="tgrid"></div>
+      </div>
+      <button class="tg-btn" onclick="bookNow()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        <span data-i="form_btn">Записаться через Telegram</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="s-tag">04 — <span data-i="ct_tag">Контакты</span></div>
+  <h2 class="s-title"><span data-i="ct_title1">Как нас</span> <i data-i="ct_title2">найти</i></h2>
+  <div class="ct-cards">
+    <div class="ct-card">
+      <div class="ct-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s-8-7-8-13a8 8 0 1 1 16 0c0 6-8 13-8 13z"/><circle cx="12" cy="9" r="3"/></svg></div>
+      <h4 data-i="ct_addr_t">Адрес</h4>
+      <p data-i="ct_addr_p">г. Денау, Сурхандарьинская область<br>ул. Абдулы Авлони, 29</p>
+    </div>
+    <div class="ct-card">
+      <div class="ct-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <h4 data-i="ct_phone_t">Телефон</h4>
+      <a href="tel:+998200118048">+998 20 011 80 48</a>
+    </div>
+    <div class="ct-card">
+      <div class="ct-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+      <h4>Telegram</h4>
+      <a href="https://t.me/madina_nomazovna" target="_blank">@madina_nomazovna</a>
+      <p data-i="ct_tg_p">Запись и консультация</p>
+    </div>
+  </div>
+  <div class="map-wrap">
+    <iframe src="https://www.google.com/maps?q=Denov,+Surxondaryo+viloyati,+Uzbekistan&output=embed" loading="lazy" allowfullscreen></iframe>
+  </div>
+</section>
+
+<!-- ADMIN PANEL -->
+<section class="section admin-sec" id="adminSec">
+  <div class="s-tag"><span data-i="admin_tag">Панель администратора</span></div>
+  <h2 class="s-title"><span data-i="admin_title1">Управление</span> <i data-i="admin_title2">расписанием</i></h2>
+  <div class="ad-grid">
+    <div class="ad-box">
+      <div class="ad-box-title" data-i="admin_add">Добавить пациента</div>
+      <div class="afg"><label data-i="admin_lbl_name">Имя пациента</label><input type="text" id="pn" placeholder="Иванова Мария"></div>
+      <div class="afg"><label data-i="admin_lbl_day">День</label>
+        <select id="pd"><option>Понедельник</option><option>Вторник</option><option>Среда</option><option>Пятница</option><option>Суббота</option></select>
+      </div>
+      <div class="afg"><label data-i="admin_lbl_time">Время</label><input type="time" id="pt" value="09:00"></div>
+      <div class="afg"><label data-i="admin_lbl_svc">Услуга</label>
+        <select id="ps"><option>Консультация</option><option>Лечение кариеса</option><option>Реставрация</option><option>Пульпит</option><option>Гигиена</option><option>Отбеливание</option></select>
+      </div>
+      <button class="ad-btn" onclick="addPt()" data-i="admin_btn">+ Добавить в расписание</button>
+    </div>
+    <div class="ad-box">
+      <div class="ad-box-title" data-i="admin_today">Расписание на день</div>
+      <div id="ptList">
+        <div class="pt-item"><span class="pt-t">09:00</span><span class="pt-n">Алишер Н.</span><span class="pt-s">Консультация</span><button class="pt-del" onclick="delPt(this)">×</button></div>
+        <div class="pt-item"><span class="pt-t">10:30</span><span class="pt-n">Малика Ю.</span><span class="pt-s">Лечение кариеса</span><button class="pt-del" onclick="delPt(this)">×</button></div>
+        <div class="pt-item"><span class="pt-t">12:00</span><span class="pt-n">Санобар К.</span><span class="pt-s">Гигиена</span><button class="pt-del" onclick="delPt(this)">×</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-logo">
+        <div class="foot-logo-moon">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <path d="M28 6c-1.5 0-3 .25-4.3.7C29 9 32.5 14 32.5 20s-3.5 11-8.8 13.3c1.3.45 2.8.7 4.3.7 7.7 0 14-6.3 14-14S35.7 6 28 6z" fill="#F7D6E0"/>
+          </svg>
+        </div>
+        <span class="foot-logo-name">MOONLIGHT</span>
+      </div>
+      <p class="foot-tag" data-i="foot_tag">Премиальный уход для вашей идеальной улыбки.</p>
+    </div>
+    <div class="foot-col">
+      <h5 data-i="foot_nav">Навигация</h5>
+      <a href="#about" data-i="nav_about">О враче</a>
+      <a href="#schedule" data-i="nav_schedule">Расписание</a>
+      <a href="#booking" data-i="nav_booking">Запись</a>
+      <a href="#contact" data-i="nav_contact">Контакты</a>
+    </div>
+    <div class="foot-col">
+      <h5 data-i="foot_contacts">Контакты</h5>
+      <a href="tel:+998200118048">+998 20 011 80 48</a>
+      <a href="https://t.me/madina_nomazovna" target="_blank">@madina_nomazovna</a>
+      <p data-i="foot_addr">Денау, ул. Авлони, 29</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2025 MOONLIGHT Dental Studio · <span data-i="foot_rights">Все права защищены</span></span>
+    <span style="font-size:10px;opacity:0.3" data-i="foot_city">г. Денау, Сурхандарьинская область</span>
+  </div>
+</footer>
+
+<a class="tg-float" href="https://t.me/madina_nomazovna" target="_blank">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+  <span data-i="tg_float">Записаться</span>
+</a>
+
+<script>
+// ============ CREDENTIALS ============
+const DOCTOR_PHONE = '+998200118048';
+const DOCTOR_PW    = 'Genude99';
+// Normalise phone for comparison
+function normalisePhone(p){ return p.replace(/\D/g,''); }
+
+// ============ AUTH STATE ============
+let isDoctor = false;
+
+function openModal(){ document.getElementById('loginModal').classList.add('open'); document.getElementById('loginPhone').focus(); }
+function closeModal(){ document.getElementById('loginModal').classList.remove('open'); clearErrors(); }
+
+document.getElementById('loginModal').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+function clearErrors(){
+  document.querySelectorAll('.modal-err').forEach(el=>el.classList.remove('show'));
+  document.querySelectorAll('.mfi').forEach(el=>el.classList.remove('error'));
+}
+
+function togglePw(){
+  const inp = document.getElementById('loginPw');
+  inp.type = inp.type==='password' ? 'text' : 'password';
+}
+
+function doLogin(){
+  clearErrors();
+  const phone = document.getElementById('loginPhone').value.trim();
+  const pw    = document.getElementById('loginPw').value;
+  const phoneNorm = normalisePhone(phone);
+  const doctorNorm = normalisePhone(DOCTOR_PHONE);
+
+  if(!phone){ document.getElementById('loginPhone').classList.add('error'); document.getElementById('loginPhoneErr').classList.add('show'); return; }
+  if(!pw){ document.getElementById('loginPw').classList.add('error'); document.getElementById('loginPwErr').classList.add('show'); return; }
+
+  if(phoneNorm === doctorNorm && pw === DOCTOR_PW){
+    isDoctor = true;
+    closeModal();
+    setDoctorUI(true);
+  } else {
+    document.getElementById('loginGeneralErr').classList.add('show');
+    document.getElementById('loginPhone').classList.add('error');
+    document.getElementById('loginPw').classList.add('error');
+  }
+}
+
+document.getElementById('loginPw').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+document.getElementById('loginPhone').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('loginPw').focus(); });
+
+function doLogout(){
+  isDoctor = false;
+  setDoctorUI(false);
+}
+
+function setDoctorUI(on){
+  document.getElementById('loginBtn').style.display   = on ? 'none' : '';
+  document.getElementById('doctorBadge').classList.toggle('show', on);
+  document.getElementById('logoutBtn').classList.toggle('show', on);
+  document.getElementById('adminBanner').classList.toggle('show', on);
+  document.getElementById('adminSec').classList.toggle('vis', on);
+  if(on) setTimeout(()=>document.getElementById('adminSec').scrollIntoView({behavior:'smooth'}), 300);
+}
+
+function scrollToAdmin(){
+  document.getElementById('adminSec').scrollIntoView({behavior:'smooth'});
+}
+
+// ============ TRANSLATIONS ============
+const T = {
+  ru:{
+    nav_about:'О враче',nav_schedule:'Расписание',nav_booking:'Запись',nav_contact:'Контакты',nav_cta:'Записаться',
+    nav_login:'Войти', nav_doctor_name:'Мадина', nav_logout:'Выйти',
+    banner_text:'Вы вошли как администратор', banner_sub:'Управляйте расписанием в панели ниже', banner_btn:'Открыть панель ↓',
+    modal_badge_t:'Вход для врача', modal_badge_s:'Войдите с данными вашего аккаунта',
+    modal_lbl_phone:'Номер телефона', modal_lbl_pw:'Пароль',
+    modal_err_phone:'Введите номер телефона', modal_err_pw:'Введите пароль', modal_err_general:'Неверный номер или пароль',
+    modal_btn_login:'Войти как врач',
+    hero_tag:'Принимает пациентов · Денау', hero_name1:'Туракулова', hero_name2:'Мадина',
+    hero_role:'Стоматолог-терапевт',
+    hero_slogan:'Премиальный уход для вашей идеальной улыбки.',
+    hero_desc:'Профессиональный подход к каждому пациенту. Комфортное лечение, современные материалы и индивидуальный план — для здоровья и красоты вашей улыбки.',
+    hero_btn_primary:'Записаться в Telegram →', hero_btn_secondary:'Узнать больше',
+    stat1:'Года опыта', stat2:'Пациентов', stat3:'Качество',
+    status_text:'Принимает', info_lbl:'Опыт работы', info_val:'2+ года',
+    about_tag:'О враче', about_title1:'Профессионализм', about_title2:'и забота',
+    about_p1:'Я — стоматолог-терапевт с опытом работы более 2 лет. Работаю как со взрослыми, так и с детьми, уделяя особое внимание комфорту пациента и качеству лечения.',
+    about_p2:'Специализируюсь на лечении кариеса любой сложности, эстетической реставрации зубов, лечении пульпита и периодонтита. В своей практике использую современные материалы и методы лечения, позволяющие добиться долговечного и эстетичного результата.',
+    about_p3:'Также провожу профессиональную гигиену полости рта, удаление зубного камня и налёта, отбеливание зубов, лечение чувствительности и профилактику стоматологических заболеваний.',
+    about_p4:'Для каждого пациента составляю индивидуальный план лечения, подробно консультирую и помогаю сохранить здоровье и красоту улыбки.',
+    srv1_n:'Лечение кариеса',srv1_d:'Любой сложности, современные материалы',
+    srv2_n:'Эстетика',srv2_d:'Художественная реставрация зубов',
+    srv3_n:'Пульпит / Периодонтит',srv3_d:'Лечение каналов с современным оборудованием',
+    srv4_n:'Профгигиена',srv4_d:'Ультразвуковая чистка, удаление налёта',
+    srv5_n:'Отбеливание',srv5_d:'Профессиональное отбеливание зубов',
+    srv6_n:'Детский приём',srv6_d:'Лечение в комфортной атмосфере для детей',
+    sch_tag:'Расписание',sch_title1:'График',sch_title2:'приёма',
+    book_tag:'Запись',book_title1:'Записаться',book_title2:'на приём',
+    step1_t:'Выберите услугу и день',step1_d:'Укажите, с чем хотите обратиться, и выберите удобный день из расписания.',
+    step2_t:'Выберите свободное время',step2_d:'Нажмите на удобный временной слот из доступных окон.',
+    step3_t:'Нажмите «Записаться»',step3_d:'Вы перейдёте в Telegram с готовым сообщением для врача.',
+    step4_t:'Получите подтверждение',step4_d:'Мадина подтвердит запись в Telegram и добавит вас в расписание.',
+    form_title:'Онлайн-запись',form_sub:'Заполните форму — мы свяжемся с вами',
+    form_lbl_svc:'Услуга',form_lbl_day:'День приёма',form_lbl_time:'Свободное время',
+    svc_opt1:'Консультация (бесплатно)',svc_opt2:'Лечение кариеса',svc_opt3:'Эстетическая реставрация',
+    svc_opt4:'Лечение пульпита / периодонтита',svc_opt5:'Профессиональная гигиена',
+    svc_opt6:'Отбеливание зубов',svc_opt7:'Детский приём',svc_opt8:'Другое',
+    day_mon:'Понедельник',day_tue:'Вторник',day_wed:'Среда',day_fri:'Пятница',day_sat:'Суббота',
+    form_btn:'Записаться через Telegram',
+    ct_tag:'Контакты',ct_title1:'Как нас',ct_title2:'найти',
+    ct_addr_t:'Адрес',ct_addr_p:'г. Денау, Сурхандарьинская область<br>ул. Абдулы Авлони, 29',
+    ct_phone_t:'Телефон',ct_tg_p:'Запись и консультация',
+    admin_tag:'Панель администратора',admin_title1:'Управление',admin_title2:'расписанием',
+    admin_add:'Добавить пациента',admin_today:'Расписание на день',
+    admin_lbl_name:'Имя пациента',admin_lbl_day:'День',admin_lbl_time:'Время',admin_lbl_svc:'Услуга',
+    admin_btn:'+ Добавить в расписание',
+    foot_tag:'Премиальный уход для вашей идеальной улыбки.',
+    foot_nav:'Навигация',foot_contacts:'Контакты',
+    foot_addr:'Денау, ул. Авлони, 29',foot_city:'г. Денау, Сурхандарьинская область',
+    foot_rights:'Все права защищены',tg_float:'Записаться',
+    d_mon:'Пн',d_tue:'Вт',d_wed:'Ср',d_thu:'Чт',d_fri:'Пт',d_sat:'Сб',d_sun:'Вс',d_closed:'Выходной',
+    book_msg_hi:'Здравствуйте, Мадина!',book_msg_intro:'Хочу записаться на приём:',
+    book_msg_svc:'Услуга',book_msg_day:'День',book_msg_time:'Время',
+    book_msg_thx:'Жду подтверждения. Спасибо!',book_msg_notime:'время не указано'
+  },
+  uz:{
+    nav_about:'Shifokor haqida',nav_schedule:'Jadval',nav_booking:'Yozilish',nav_contact:'Aloqa',nav_cta:'Yozilish',
+    nav_login:'Kirish',nav_doctor_name:'Madina',nav_logout:'Chiqish',
+    banner_text:'Siz administrator sifatida kirdingiz',banner_sub:'Jadval panelini boshqaring',banner_btn:'Panelni ochish ↓',
+    modal_badge_t:'Shifokor uchun kirish',modal_badge_s:'Hisobingiz maʼlumotlari bilan kiring',
+    modal_lbl_phone:'Telefon raqami',modal_lbl_pw:'Parol',
+    modal_err_phone:'Telefon raqamini kiriting',modal_err_pw:'Parolni kiriting',modal_err_general:'Notoʻgʻri raqam yoki parol',
+    modal_btn_login:'Shifokor sifatida kirish',
+    hero_tag:'Bemorlarni qabul qiladi · Denov',hero_name1:'Turaqulova',hero_name2:'Madina',
+    hero_role:'Tish shifokori-terapevt',
+    hero_slogan:'Mukammal tabassumingiz uchun premium parvarish.',
+    hero_desc:'Har bir bemorga professional yondashuv. Qulay davolash, zamonaviy materiallar va individual reja — tabassumingiz salomatligi va goʻzalligi uchun.',
+    hero_btn_primary:'Telegram orqali yozilish →',hero_btn_secondary:'Batafsil',
+    stat1:'Yil tajriba',stat2:'Bemor',stat3:'Sifat',
+    status_text:'Qabul qiladi',info_lbl:'Ish tajribasi',info_val:'2+ yil',
+    about_tag:'Shifokor haqida',about_title1:'Professionallik',about_title2:'va gʻamxoʻrlik',
+    about_p1:'Men — 2 yildan ortiq ish tajribasiga ega tish shifokori-terapevtman. Kattalar va bolalar bilan ishlayman, bemorning qulayligi va davolash sifatiga alohida eʼtibor qarataman.',
+    about_p2:'Har qanday murakkablikdagi kariesni davolash, tishlarni estetik qayta tiklash, pulpit va periodontitni davolashga ixtisoslashganman.',
+    about_p3:'Shuningdek, ogʻiz boʻshligʻining professional gigienasi, tish toshlari va karashini olib tashlash, tishlarni oqartirish ishlarini olib boraman.',
+    about_p4:'Har bir bemor uchun individual davolash rejasini tuzaman va tabassumning salomatligi va goʻzalligini saqlashga yordam beraman.',
+    srv1_n:'Kariesni davolash',srv1_d:'Har qanday murakkablikda, zamonaviy materiallar',
+    srv2_n:'Estetika',srv2_d:'Tishlarni badiiy qayta tiklash',
+    srv3_n:'Pulpit / Periodontit',srv3_d:'Zamonaviy uskunalar bilan kanallarni davolash',
+    srv4_n:'Professional gigiena',srv4_d:'Ultrasonik tozalash, karashni olib tashlash',
+    srv5_n:'Oqartirish',srv5_d:'Professional tishlarni oqartirish',
+    srv6_n:'Bolalar qabuli',srv6_d:'Bolalar uchun qulay muhitda davolash',
+    sch_tag:'Jadval',sch_title1:'Qabul',sch_title2:'jadvali',
+    book_tag:'Yozilish',book_title1:'Qabulga',book_title2:'yozilish',
+    step1_t:'Xizmat va kunni tanlang',step1_d:'Nima bilan murojaat qilmoqchi ekanligingizni va jadvaldan qulay kunni koʻrsating.',
+    step2_t:'Boʻsh vaqtni tanlang',step2_d:'Mavjud boʻsh oynalardan qulay vaqtni bosing.',
+    step3_t:'«Yozilish» tugmasini bosing',step3_d:'Siz tayyor xabar bilan Telegramga oʻtasiz.',
+    step4_t:'Tasdiqlash oling',step4_d:'Madina Telegramda yozilishni tasdiqlaydi va sizni jadvalga qoʻshadi.',
+    form_title:'Onlayn yozilish',form_sub:'Formani toʻldiring — biz siz bilan bogʻlanamiz',
+    form_lbl_svc:'Xizmat',form_lbl_day:'Qabul kuni',form_lbl_time:'Boʻsh vaqt',
+    svc_opt1:'Maslahat (bepul)',svc_opt2:'Kariesni davolash',svc_opt3:'Estetik qayta tiklash',
+    svc_opt4:'Pulpit / periodontitni davolash',svc_opt5:'Professional gigiena',
+    svc_opt6:'Tishlarni oqartirish',svc_opt7:'Bolalar qabuli',svc_opt8:'Boshqa',
+    day_mon:'Dushanba',day_tue:'Seshanba',day_wed:'Chorshanba',day_fri:'Juma',day_sat:'Shanba',
+    form_btn:'Telegram orqali yozilish',
+    ct_tag:'Aloqa',ct_title1:'Bizni qanday',ct_title2:'topish',
+    ct_addr_t:'Manzil',ct_addr_p:'Denov shahri, Surxondaryo viloyati<br>Abdulla Avloniy koʻchasi, 29',
+    ct_phone_t:'Telefon',ct_tg_p:'Yozilish va maslahat',
+    admin_tag:'Administrator paneli',admin_title1:'Boshqaruv',admin_title2:'paneli',
+    admin_add:'Bemor qoʻshish',admin_today:'Kunlik jadval',
+    admin_lbl_name:'Bemor ismi',admin_lbl_day:'Kun',admin_lbl_time:'Vaqt',admin_lbl_svc:'Xizmat',
+    admin_btn:'+ Jadvalga qoʻshish',
+    foot_tag:'Mukammal tabassumingiz uchun premium parvarish.',
+    foot_nav:'Navigatsiya',foot_contacts:'Aloqa',
+    foot_addr:'Denov, Avloniy, 29',foot_city:'Denov shahri, Surxondaryo viloyati',
+    foot_rights:'Barcha huquqlar himoyalangan',tg_float:'Yozilish',
+    d_mon:'Du',d_tue:'Se',d_wed:'Ch',d_thu:'Pa',d_fri:'Ju',d_sat:'Sh',d_sun:'Ya',d_closed:'Dam olish',
+    book_msg_hi:'Salom, Madina!',book_msg_intro:'Qabulga yozilmoqchiman:',
+    book_msg_svc:'Xizmat',book_msg_day:'Kun',book_msg_time:'Vaqt',
+    book_msg_thx:'Tasdiqni kutaman. Rahmat!',book_msg_notime:'vaqt koʻrsatilmagan'
+  },
+  en:{
+    nav_about:'About',nav_schedule:'Schedule',nav_booking:'Booking',nav_contact:'Contact',nav_cta:'Book now',
+    nav_login:'Login',nav_doctor_name:'Madina',nav_logout:'Logout',
+    banner_text:'You are logged in as administrator',banner_sub:'Manage the schedule in the panel below',banner_btn:'Open panel ↓',
+    modal_badge_t:'Doctor login',modal_badge_s:'Sign in with your account credentials',
+    modal_lbl_phone:'Phone number',modal_lbl_pw:'Password',
+    modal_err_phone:'Enter phone number',modal_err_pw:'Enter password',modal_err_general:'Incorrect phone or password',
+    modal_btn_login:'Login as doctor',
+    hero_tag:'Accepting patients · Denau',hero_name1:'Turakulova',hero_name2:'Madina',
+    hero_role:'Dentist · Therapist',
+    hero_slogan:'Luxury care for your perfect smile.',
+    hero_desc:'A professional approach to every patient. Comfortable treatment, modern materials and a personalized plan — for the health and beauty of your smile.',
+    hero_btn_primary:'Book via Telegram →',hero_btn_secondary:'Learn more',
+    stat1:'Years of experience',stat2:'Patients',stat3:'Quality',
+    status_text:'Available',info_lbl:'Experience',info_val:'2+ years',
+    about_tag:'About',about_title1:'Professionalism',about_title2:'and care',
+    about_p1:'I am a dentist-therapist with over 2 years of experience. I work with both adults and children, paying special attention to patient comfort and quality of treatment.',
+    about_p2:'I specialize in treating caries of any complexity, aesthetic dental restoration, treatment of pulpitis and periodontitis, using modern materials for long-lasting results.',
+    about_p3:'I also perform professional oral hygiene, removal of dental calculus and plaque, teeth whitening, and prevention of dental diseases.',
+    about_p4:'I create an individual treatment plan for each patient and help preserve the health and beauty of your smile.',
+    srv1_n:'Caries treatment',srv1_d:'Of any complexity, modern materials',
+    srv2_n:'Aesthetics',srv2_d:'Artistic dental restoration',
+    srv3_n:'Pulpitis / Periodontitis',srv3_d:'Root canal treatment with modern equipment',
+    srv4_n:'Professional hygiene',srv4_d:'Ultrasonic cleaning, plaque removal',
+    srv5_n:'Whitening',srv5_d:'Professional teeth whitening',
+    srv6_n:'Pediatric care',srv6_d:'Treatment in a comfortable atmosphere for children',
+    sch_tag:'Schedule',sch_title1:'Appointment',sch_title2:'schedule',
+    book_tag:'Booking',book_title1:'Book',book_title2:'an appointment',
+    step1_t:'Choose service and day',step1_d:'Specify what you want to address and choose a convenient day from the schedule.',
+    step2_t:'Pick available time',step2_d:'Click on a convenient time slot from available windows.',
+    step3_t:'Press "Book now"',step3_d:'You will be redirected to Telegram with a ready message for the doctor.',
+    step4_t:'Get confirmation',step4_d:'Madina will confirm the booking on Telegram and add you to the schedule.',
+    form_title:'Online booking',form_sub:'Fill out the form — we will contact you',
+    form_lbl_svc:'Service',form_lbl_day:'Day',form_lbl_time:'Available time',
+    svc_opt1:'Consultation (free)',svc_opt2:'Caries treatment',svc_opt3:'Aesthetic restoration',
+    svc_opt4:'Pulpitis / periodontitis treatment',svc_opt5:'Professional hygiene',
+    svc_opt6:'Teeth whitening',svc_opt7:'Pediatric care',svc_opt8:'Other',
+    day_mon:'Monday',day_tue:'Tuesday',day_wed:'Wednesday',day_fri:'Friday',day_sat:'Saturday',
+    form_btn:'Book via Telegram',
+    ct_tag:'Contact',ct_title1:'How to',ct_title2:'find us',
+    ct_addr_t:'Address',ct_addr_p:'Denau, Surkhandarya region<br>Abdulla Avloniy str., 29',
+    ct_phone_t:'Phone',ct_tg_p:'Booking and consultation',
+    admin_tag:'Admin panel',admin_title1:'Schedule',admin_title2:'management',
+    admin_add:'Add patient',admin_today:'Daily schedule',
+    admin_lbl_name:'Patient name',admin_lbl_day:'Day',admin_lbl_time:'Time',admin_lbl_svc:'Service',
+    admin_btn:'+ Add to schedule',
+    foot_tag:'Luxury care for your perfect smile.',
+    foot_nav:'Navigation',foot_contacts:'Contact',
+    foot_addr:'Denau, Avloniy, 29',foot_city:'Denau, Surkhandarya region',
+    foot_rights:'All rights reserved',tg_float:'Book now',
+    d_mon:'Mon',d_tue:'Tue',d_wed:'Wed',d_thu:'Thu',d_fri:'Fri',d_sat:'Sat',d_sun:'Sun',d_closed:'Closed',
+    book_msg_hi:'Hello, Madina!',book_msg_intro:'I would like to book an appointment:',
+    book_msg_svc:'Service',book_msg_day:'Day',book_msg_time:'Time',
+    book_msg_thx:'Waiting for confirmation. Thank you!',book_msg_notime:'time not selected'
+  }
+};
+
+let currentLang = 'ru';
+
+function applyLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    const key = el.getAttribute('data-i');
+    if(T[lang][key] !== undefined){
+      if(el.tagName==='OPTION'){ el.textContent = T[lang][key]; }
+      else if(T[lang][key].includes('<br>')){ el.innerHTML = T[lang][key]; }
+      else { el.textContent = T[lang][key]; }
+    }
+  });
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('data-lang')===lang));
+  buildSchedule();
+}
+
+document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>applyLang(b.getAttribute('data-lang'))));
+
+// ============ SCHEDULE ============
+function buildSchedule(){
+  const t = T[currentLang];
+  const DAYS=[
+    {a:t.d_mon,n:16,o:true,h:'09:00 – 18:00'},
+    {a:t.d_tue,n:17,o:true,h:'09:00 – 18:00'},
+    {a:t.d_wed,n:18,o:true,h:'09:00 – 18:00'},
+    {a:t.d_thu,n:19,o:false,h:t.d_closed},
+    {a:t.d_fri,n:20,o:true,h:'09:00 – 18:00'},
+    {a:t.d_sat,n:21,o:true,h:'10:00 – 15:00'},
+    {a:t.d_sun,n:22,o:false,h:t.d_closed}
+  ];
+  const wg = document.getElementById('weekGrid');
+  wg.innerHTML='';
+  DAYS.forEach(d=>{
+    const el = document.createElement('div');
+    el.className = 'day-c '+(d.o?'open':'closed');
+    el.innerHTML = `<div class="day-ab">${d.a}</div><div class="day-nb">${d.n}</div><div class="day-st">${d.h}</div>`;
+    wg.appendChild(el);
+  });
+}
+
+// ============ TIME SLOTS ============
+const TIMES=['09:00','09:30','10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30'];
+const tg = document.getElementById('tgrid');
+TIMES.forEach(t=>{
+  const s=document.createElement('div');
+  s.className='ts'; s.textContent=t;
+  s.onclick=()=>{ document.querySelectorAll('.ts').forEach(x=>x.classList.remove('on')); s.classList.add('on'); };
+  tg.appendChild(s);
+});
+
+// ============ BOOKING ============
+function bookNow(){
+  const t = T[currentLang];
+  const svc = document.getElementById('svc').value;
+  const day = document.getElementById('daysel').value;
+  const act = document.querySelector('.ts.on');
+  const time = act ? act.textContent : t.book_msg_notime;
+  const msg = encodeURIComponent(`${t.book_msg_hi}\n\n${t.book_msg_intro}\n• ${t.book_msg_svc}: ${svc}\n• ${t.book_msg_day}: ${day}\n• ${t.book_msg_time}: ${time}\n\n${t.book_msg_thx}`);
+  window.open(`https://t.me/madina_nomazovna?text=${msg}`,'_blank');
+}
+
+// ============ ADMIN ============
+function addPt(){
+  const name=document.getElementById('pn').value.trim();
+  const time=document.getElementById('pt').value;
+  const svc=document.getElementById('ps').value;
+  if(!name){ document.getElementById('pn').focus(); return; }
+  const li=document.createElement('div');
+  li.className='pt-item';
+  li.innerHTML=`<span class="pt-t">${time}</span><span class="pt-n">${name}</span><span class="pt-s">${svc}</span><button class="pt-del" onclick="delPt(this)">×</button>`;
+  document.getElementById('ptList').appendChild(li);
+  document.getElementById('pn').value='';
+}
+function delPt(btn){ btn.closest('.pt-item').remove(); }
+
+// ============ INIT ============
+buildSchedule();
+</script>
+</body>
+</html>
